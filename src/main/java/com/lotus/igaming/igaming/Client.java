@@ -1,17 +1,19 @@
 package com.lotus.igaming.igaming;
 
 import jakarta.annotation.Nonnull;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Column;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.Min;
 
 import java.util.Date;
 
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
 @Entity
@@ -31,7 +33,7 @@ public class Client {
 
     @Nonnull
     @Column(nullable = false)
-    private Date birthDay;
+    private Date birthday;
 
     private String phone;
 
@@ -42,6 +44,7 @@ public class Client {
     private String currency;
 
     @Column(nullable = false)
+    @Min(value = 0, message = "Balance must be greater than 0")
     private Double balance;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -51,7 +54,7 @@ public class Client {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
-    @CreatedDate
+    @UpdateTimestamp
     private Date updatedAt;
 
     public void setId(Long id) {
@@ -78,12 +81,12 @@ public class Client {
         this.email = email;
     }
 
-    public Date getBirthDay() {
-        return birthDay;
+    public Date getBirthday() {
+        return birthday;
     }
 
-    public void setBirthDay(Date birthDay) {
-        this.birthDay = birthDay;
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
     }
 
     public String getPhone() {

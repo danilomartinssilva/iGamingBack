@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS clients (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    phone VARCHAR(255) NOT NULL,
+    balance DECIMAL NOT NULL,
+    birthday DATE NOT NULL,
+    currency VARCHAR(255) NOT NULL,
+    status BOOLEAN NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
+    updated_at TIMESTAMP
+);
