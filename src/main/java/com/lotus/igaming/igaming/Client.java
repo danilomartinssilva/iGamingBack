@@ -11,6 +11,9 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.Min;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 import org.hibernate.annotations.UpdateTimestamp;
@@ -44,7 +47,7 @@ public class Client {
     private String currency;
 
     @Column(nullable = false)
-    @Min(value = 0, message = "Balance must be greater than 0")
+    @Min(value = 1, message = "Balance must be greater than 0")
     private Double balance;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -70,14 +73,21 @@ public class Client {
     }
 
     public void setName(String name) {
+        if (name.isEmpty()) {
+            throw new IllegalArgumentException("Name cannot be empty");
+        }
         this.name = name;
     }
 
     public String getEmail() {
+
         return email;
     }
 
     public void setEmail(String email) {
+        if (email.isEmpty()) {
+            throw new IllegalArgumentException("Email cannot be empty");
+        }
         this.email = email;
     }
 
@@ -118,6 +128,9 @@ public class Client {
     }
 
     public void setBalance(Double balance) {
+        if (balance < 1) {
+            throw new IllegalArgumentException("Balance must be greater than 0");
+        }
         this.balance = balance;
     }
 
