@@ -13,7 +13,10 @@ public class CorsConfig implements WebMvcConfigurer {
         String[] ALLOWED_ORIGINS = new String[]{
                 "http://localhost:4200",
                 "http://0.0.0.0:4200",
-                "http://127.0.0.1:4200"
+                "http://127.0.0.1:4200",
+                "https://igaminproject.vercel.app/clients",
+                "https://igaminproject.vercel.app"
+
         };
 
         registry.addMapping("/**")

@@ -1,10 +1,6 @@
 package com.lotus.igaming.igaming.controller;
 
-import java.util.Date;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
-import java.util.List;
+
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -14,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.lotus.igaming.igaming.Client;
 import com.lotus.igaming.igaming.repositories.ClientRepository;
@@ -27,6 +22,7 @@ public class ClientController {
     public ClientController(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
     }
+
 
     @GetMapping
     public ResponseEntity<Page<Client>> getAllClients(
@@ -49,11 +45,6 @@ public class ClientController {
         return ResponseEntity.status(HttpStatusCode.valueOf(201)).body(client);
     }
 
-    @GetMapping("/{id}")
-    public Client getNoteById(@PathVariable(value = "id") Long id) {
-        System.out.println(id + "id");
-        return clientRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity deleteClient(@PathVariable(value = "id") Long id) {
