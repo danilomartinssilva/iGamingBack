@@ -7,17 +7,13 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.lotus.igaming.igaming.Client;
@@ -32,17 +28,18 @@ public class ClientController {
         this.clientRepository = clientRepository;
     }
 
-    @GetMapping("/")
-    public ResponseEntity getAllClients() {
+    @GetMapping
+    public ResponseEntity<Page<Client>> getAllClients(
+            @PageableDefault(page = 0, size = 20) Pageable pageable) {
 
-        List<Client> clients = clientRepository.findAll();
-        System.out.println(clients);
+        Page<Client> clientsPage = clientRepository.findAll(pageable);
+        System.out.println("Página de Clientes: " + clientsPage.getContent().size());
 
-        if (clients.isEmpty()) {
-            return ResponseEntity.status(HttpStatusCode.valueOf(204)).body(clients);
+        if (clientsPage.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(clientsPage);
         }
 
-        return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(clients);
+        return ResponseEntity.ok(clientsPage);
     }
 
     @PostMapping("/")
